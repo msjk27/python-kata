@@ -73,6 +73,7 @@ def __art_crawl(hrefs, sid, index):
     html = requests.get(url, headers = {"User-Agent": "Mozilla/5.0 "\
     "(Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)"\
     "Chrome/110.0.0.0 Safari/537.36"})
+    media_company_selector = ".media_end_head_top_logo > img"
     soup = BeautifulSoup(html.text, "lxml")
     title = soup.select(title_selector)
     title_lst = [t.text for t in title]
@@ -86,6 +87,8 @@ def __art_crawl(hrefs, sid, index):
     author_lst = [a.text for a in author]
     author_str = "".join(author_lst)
 
+    media_company = soup.select(media_company_selector)[0].get('title')
+    
     main = soup.select(main_selector)
     main_lst = []
     for m in main:
@@ -97,6 +100,7 @@ def __art_crawl(hrefs, sid, index):
     art_dic["date"] = date_str
     art_dic["main"] = main_str
     art_dic["author"] = author_str
+    art_dic["media_company"] = media_company
     return art_dic
 
 
